@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main()
+{
+    char operation;
+    double number1,number2;
+
+    printf("Enter some operator(+, -, *, /): ");
+    scanf("%c",&operation);
+    printf("Enter number 1: ");
+    scanf("%lf",&number1);
+    printf("Enter number 2: ");
+    scanf("%lf",&number2);
+
+    switch(operation) {
+
+case '+':
+    printf("%.1lf + %.1lf = %.1lf",number1,number2,number1+number2);
+    break;
+case '-':
+    printf("%.1lf - %.1lf = %.1lf",number1,number2,number1-number2);
+    break;
+case '*':
+    printf("%.1lf * %.1lf = %.1lf",number1,number2,number1*number2);
+    break;
+case '/':
+    printf("%.1lf / %.1lf = %.1lf",number1,number2,number1*number2);
+    break;
+default:
+    printf("Operator sa nezhoduje!");
+
+    }
+
+
+    return 0;
+}
