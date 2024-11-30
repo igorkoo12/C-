@@ -71,4 +71,66 @@ int statistics(FILE *input_file, FILE *output_file)
     char *word;
     size_t word_size = 16;
 
-    if ((wo
+    if ((word = (char*) malloc(word_size * sizeof(char))) == NULL)
+    {
+        printf("Not enough memory!\n");
+        return 1;
+    }
+
+    while ((character = getc(input_file)) != EOF)
+    {
+        // If the character is alphanumeric (i.e., part of a word)
+        if (isalnum(character))
+        {
+            if(word_index >= word_size - 1)
+            {
+                word_size *= 2;
+                char* new_word = (char*) realloc(word, word_size * sizeof(char));
+                if (new_word == NULL)
+                {
+                    free(word);
+                    printf("Not enough memory!\n");
+                    return 1;
+                }
+                word = new_word; // Update the pointer to the new memory
+            }
+
+            word[word_index++] = character;  // Add the character to the word
+            continue;  // Continue to the next character
+        }
+
+        // If we find a character that indicates the end of a word (space, punctuation, etc.)
+        if (endOfWord(character) && word_index > 0)
+        {
+            word_counter++;  // Count the word
+
+            // If it's an end-of-sentence character, count the sentence
+            if (endOfSentence(character))
+            {
+                sentence_counter++;
+            }
+
+            // Terminate the word with a null-terminator
+            word[word_index] = '\0';
+
+            // Print the word to the console
+            printf("Word %d: %s\n", word_counter, word);
+
+            // Reset the index for the next word
+            word_index = 0;
+        }
+
+        // If it's a new line, count the line
+        if (character == '\n')
+        {
+            line_counter++;
+        }
+    }
+
+    fprintf(output_file, "Number of lines: %d\n", line_counter);
+    fprintf(output_file, "Number of words: %d\n", word_counter);
+    fprintf(output_file, "Number of sentences: %d\n", sentence_counter);
+
+    free((void*)word);
+    word = NULL;
+}
