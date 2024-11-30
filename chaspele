@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <ctype.h>
+
+int statistics(FILE *input_file, FILE *output_file); // declaration of the function that counts the given values
+int endOfSentence(char character);
+int endOfWord(char character);
+
+int main(void)
+{
+    char input_file[32]; // array for the name of the input file from which we will read
+    char output_file[32]; // array for the name of the output file to which we will write
+
+    printf("Enter the name of the input file: \n");
+    if (scanf("%31s", input_file) != 1 || input_file[0] == '\0') // check if the identifier is valid or empty
+    {
+        printf("Error during loading!\n");
+        return 1;
+    }
+
+    printf("Enter the name of the output file: \n");
+    if (scanf("%31s", output_file) != 1 || output_file[0] == '\0') // check if the identifier is valid or empty
+    {
+        printf("Error during loading!\n");
+        return 1;
+    }
+
+    FILE *fr = fopen(input_file, "r"); // create a file pointer for FILE (fr=file_read) that opens the found file "r" = for reading
+    if (fr == NULL)
+    {
+        perror("Error opening file for reading\n"); // perror = print a more detailed error message
+        return 1;
+    }
+    else
+    {
+        printf("File %s has been opened for reading\n", input_file);
+    }
+
+    FILE *fw = fopen(output_file, "w"); // create a file pointer for FILE (fw=file_write) that opens the file for writing data "w" = for writing
+    if (fw == NULL)
+    {
+        perror("Error opening the output file for writing.\n");
+        fclose(fr); // if opening the output file fails, close the input file to avoid memory leaks
+        return 1; // terminate the program with an error
+    }
+
+    statistics(fr, fw); // function that writes the given values and prints words to the console
+    // after execution, we close the used files to release allocated memory that was allocated using fopen()
+    fclose(fr);
+    fclose(fw);
+
+    return 0;
+}
+// definition of the endOfSentence function
+int endOfSentence(char character)
+{
+    return character == '?' || character == '!' || character == '.';
+}
+// definition of the endOfWord function
+int endOfWord(char character)
+{
+    return endOfSentence(character) || character == ' ' || character == '\n' || character == ',' || character == ';';
+}
+// definition of the statistics function
+int statistics(FILE *input_file, FILE *output_file)
+{
+    int line_counter = 0; // create a line counter - ends with '\n'
+    int word_counter = 0; // create a word counter
+    int sentence_counter = 0; // create a sentence counter - ends with . ? !
+    int word_index = 0;
+    char character;
+    char *word;
+    size_t word_size = 16;
+
+    if ((wo
