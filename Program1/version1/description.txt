@@ -1,0 +1,14 @@
+Problem:
+
+The task is to process a text file to count the number of lines, sentences, and words.
+
+    A line is defined as text that ends with an End-of-Line (EOL) character, such as \n.
+    A sentence is defined as text that ends with a punctuation mark such as a period (.), exclamation mark (!), or question mark (?).
+    A word is defined as a sequence of characters that ends with a space, comma, period, semicolon, or similar punctuation mark.
+
+The program should:
+
+    Read the text from an input file.
+    Count the number of lines, sentences, and words.
+    Output each word found in the text.
+    Write the results (number of lines, sentences, and words) to a different output file.
